@@ -1,8 +1,8 @@
 package cmd
 
 import (
-	"github.com/aurora/consts"
 	"github.com/samber/lo"
+	"github.com/stubborn-gaga/aurora/consts"
 )
 
 type Env string

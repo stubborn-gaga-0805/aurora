@@ -1,7 +1,7 @@
 package mysql
 
 import (
-	"github.com/aurora/conf"
+	"github.com/stubborn-gaga/aurora/conf"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )

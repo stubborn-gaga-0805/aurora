@@ -3,10 +3,10 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"github.com/aurora/conf"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
+	"github.com/stubborn-gaga/aurora/conf"
 	"os"
 	"os/exec"
 	"path/filepath"

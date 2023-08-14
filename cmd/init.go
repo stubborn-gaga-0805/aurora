@@ -2,10 +2,10 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/aurora/consts"
-	"github.com/aurora/helpers"
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
+	"github.com/stubborn-gaga/aurora/consts"
+	"github.com/stubborn-gaga/aurora/helpers"
 	"os"
 	"os/exec"
 )

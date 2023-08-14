@@ -2,9 +2,9 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/aurora/consts"
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
+	"github.com/stubborn-gaga/aurora/consts"
 )
 
 type rootCmd struct {

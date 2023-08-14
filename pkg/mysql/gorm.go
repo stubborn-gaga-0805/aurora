@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-	"github.com/aurora/conf"
+	"github.com/stubborn-gaga/aurora/conf"
 	"gorm.io/gorm"
 	"gorm.io/plugin/dbresolver"
 	"time"

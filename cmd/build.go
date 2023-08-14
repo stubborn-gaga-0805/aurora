@@ -2,8 +2,8 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/aurora/consts"
 	"github.com/spf13/cobra"
+	"github.com/stubborn-gaga/aurora/consts"
 	"io/fs"
 	"os"
 	"os/exec"
