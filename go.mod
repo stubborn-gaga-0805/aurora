@@ -1,4 +1,4 @@
-module github.com/aurora
+module github.com/stubborn-gaga/aurora
 
 go 1.20
 
