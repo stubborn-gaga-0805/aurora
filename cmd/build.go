@@ -20,7 +20,7 @@ type buildFlags struct {
 }
 
 var (
-	flagOutput = flag{"output", "o", "./bin/zw", "自定义二进制文件输出... "}
+	flagOutput = flag{"output", "o", "./bin/server", "自定义二进制文件输出... "}
 )
 
 func newBuildCmd() *buildCmd {

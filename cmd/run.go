@@ -24,7 +24,7 @@ type runFlags struct {
 }
 
 var (
-	flagAppName        = flag{"name", "n", "zw-server", "设置服务名称"}
+	flagAppName        = flag{"name", "n", "prepare-to-go", "设置服务名称"}
 	flagAppEnvironment = flag{"env", "e", "local", "设置服务的运行环境"}
 	flagAppVersion     = flag{"version", "v", "v1.0", "设置应用的版本"}
 	flagAppConfig      = flag{"config", "c", "", "设置配置文件的路径"}

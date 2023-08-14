@@ -44,7 +44,7 @@ func newBaseCmd() *baseCmd {
 	}
 	bc.mainPath = filepath.Join(bc.workingDir, "main.go")
 	// 检查bin文件
-	bc.binPath = filepath.Join(bc.workingDir, "/bin/zw")
+	bc.binPath = filepath.Join(bc.workingDir, "/bin/server")
 	_, err = os.Stat(bc.binPath)
 	if os.IsNotExist(err) {
 		bc.hasBin = false
@@ -91,7 +91,7 @@ func (base *baseCmd) GetBin() string {
 }
 
 func (base *baseCmd) Build() string {
-	fd := exec.Command("go", "build", "-o", base.binPath, base.mainPath)
+	fd := exec.Command("go", "build", "ldflags=\"-s -w\"", "-o", base.binPath, base.mainPath)
 	fd.Stdout = os.Stdout
 	fd.Stderr = os.Stderr
 	if err := fd.Run(); err != nil {

@@ -20,7 +20,7 @@
 
 ## aurora create <project-name>
 
-> 基于 **zw-go-frame** 创建一个新项目。该命令提供基于 **TUI** 的交互式界面来创建一个新的项目或Demo示例。
+> 基于 **[prepare2go](https://github.com/stubborn-gaga-0805/prepare2go)** 创建一个新项目。该命令提供基于 **TUI** 的交互式界面来创建一个新的项目或Demo示例。
 
 ```shell
 # example:
@@ -47,7 +47,7 @@ $ aurora init
 
 ## aurora build
 
-> 编译当前项目。默认输出二进制文件为: ```./bin/zw```
+> 编译当前项目。默认输出二进制文件为: ```./bin/server```
 
 ```shell
 # example:
@@ -65,7 +65,7 @@ $ aurora build
 ```shell
 # example:
 $ aurora gen-model  # 进入交互界面
-$ aurora gen-model -c "scrm" -t "zw_retail_order,zw_retail_order_goods"
+$ aurora gen-model -c "db" -t "table_a,table_b"
 ```
 
 - 可用选项：
@@ -77,7 +77,7 @@ $ aurora gen-model -c "scrm" -t "zw_retail_order,zw_retail_order_goods"
 
 ## aurora run
 
-> 启动项目。该命令每次执行都会自动编译创建二进制文件:  ```./bin/zw```
+> 启动项目。该命令每次执行都会自动编译创建二进制文件:  ```./bin/server```
 
 ```shell
 # example:
@@ -90,7 +90,7 @@ $ aurora run -e dev --without.mq # 用dev的配置编译并启动项目，不启
     - **-h, --help**  查看帮助信息
     - **-c, --config**  设置配置文件的路径
     - **-e, --env** 设置服务的运行环境 (默认: "local")
-    - **-n, --name**  设置服务名称 (默认: "zw-server")
+    - **-n, --name**  设置服务名称 (默认: "prepare-to-go")
     - **-v, --version** 设置应用的版本 (默认: "v1.0")
     - **--with.cron** 是否启动定时任务
     - **--with.ws** 是否启动websocket服务

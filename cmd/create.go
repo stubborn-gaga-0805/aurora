@@ -187,7 +187,7 @@ func (create *createCmd) pullRepo() (err error) {
 	if err := os.MkdirAll(targetPath, fs.ModePerm); err != nil {
 		return err
 	}
-	fmt.Printf("\n\n🚀 正在创建项目: [%s] [From %s To: %s], 拉取分支[%s], 请稍后...\n", color.GreenString(create.projectName), color.BlueString("gitlab.keyid.cn"), color.BlueString(create.projectPath), color.BlueString(create.branch))
+	fmt.Printf("\n\n🚀 正在创建项目: [%s] [From %s To: %s], 拉取分支[%s], 请稍后...\n", color.GreenString(create.projectName), color.BlueString(consts.GoFrameRepoUrl), color.BlueString(create.projectPath), color.BlueString(create.branch))
 	if err = create.cloneRepoWithGit(targetPath); err != nil {
 		_ = os.RemoveAll(targetPath)
 		return errors.New(fmt.Sprintf("🚫 拉取远程仓库失败，无法创建项目... (err: %v)", err))
