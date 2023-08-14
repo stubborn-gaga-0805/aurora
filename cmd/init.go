@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
-	"github.com/stubborn-gaga/aurora/consts"
-	"github.com/stubborn-gaga/aurora/helpers"
+	"github.com/stubborn-gaga-0805/aurora/consts"
+	"github.com/stubborn-gaga-0805/aurora/helpers"
 	"os"
 	"os/exec"
 )

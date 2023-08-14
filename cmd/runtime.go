@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"github.com/samber/lo"
-	"github.com/stubborn-gaga/aurora/consts"
+	"github.com/stubborn-gaga-0805/aurora/consts"
 )
 
 type Env string

@@ -6,7 +6,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
-	"github.com/stubborn-gaga/aurora/conf"
+	"github.com/stubborn-gaga-0805/aurora/conf"
 	"os"
 	"os/exec"
 	"path/filepath"

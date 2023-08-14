@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/stubborn-gaga/aurora/cmd"
+	"github.com/stubborn-gaga-0805/aurora/cmd"
 	"os"
 )
 

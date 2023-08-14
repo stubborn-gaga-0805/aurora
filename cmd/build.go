@@ -3,7 +3,7 @@ package cmd
 import (
 	"fmt"
 	"github.com/spf13/cobra"
-	"github.com/stubborn-gaga/aurora/consts"
+	"github.com/stubborn-gaga-0805/aurora/consts"
 	"io/fs"
 	"os"
 	"os/exec"

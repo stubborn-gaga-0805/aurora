@@ -2,7 +2,7 @@ package mysql
 
 import (
 	"context"
-	"github.com/stubborn-gaga/aurora/conf"
+	"github.com/stubborn-gaga-0805/aurora/conf"
 	"gorm.io/gorm"
 )
 
