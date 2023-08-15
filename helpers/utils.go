@@ -13,7 +13,7 @@ func NewProgressBar(count int, msg string) (bar *pb.ProgressBar) {
 	bar.SetTemplate(pb.ProgressBarTemplate(progressTemp)).
 		Set("prefix", msg).
 		Set("end", "\n").
-		Set("duration", "耗时:").
+		Set("duration", "duration:").
 		SetRefreshRate(time.Second * 10).
 		SetWidth(160).
 		SetWriter(os.Stdout).

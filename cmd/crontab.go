@@ -18,7 +18,7 @@ type crontabFlags struct {
 }
 
 var (
-	flagCrontabList = flag{"list", "l", false, "查看运行中的crontab任务"}
+	flagCrontabList = flag{"list", "l", false, "List running crontab tasks"}
 )
 
 func newCronCmd() *cronCmd {
@@ -26,7 +26,7 @@ func newCronCmd() *cronCmd {
 	c.cmd = &cobra.Command{
 		Use:     "cron",
 		Aliases: []string{"crontab", "Cron", "Crontab", "CRON"},
-		Short:   "定时任务相关命令",
+		Short:   "Crontab task related commands",
 		Long:    "",
 		Run: func(cmd *cobra.Command, args []string) {
 			c.initCrontabRuntime(cmd)
@@ -42,7 +42,7 @@ func newCronCmd() *cronCmd {
 func (c *cronCmd) initCrontabRuntime(cmd *cobra.Command) {
 	// 检查是否在项目目录下
 	if !c.InProjectPath() {
-		fmt.Println("🚫 当前目录下没有找到main文件，请在项目根目录运行...")
+		fmt.Println("🚫 The 'main.go' file is not found in the current directory, please run it in the project root directory...")
 		os.Exit(1)
 		return
 	}
@@ -68,7 +68,7 @@ func (c *cronCmd) run() {
 	fd.Stdout = os.Stdout
 	fd.Stderr = os.Stderr
 	if err := fd.Run(); err != nil {
-		fmt.Printf("🚫[命令: %s] 执行失败...[%v]\n", c.cmd.Use, err)
+		fmt.Printf("🚫Command [%s] execution failed...[%v]\n", c.cmd.Use, err)
 		os.Exit(1)
 		return
 	}

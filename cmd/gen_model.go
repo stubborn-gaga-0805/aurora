@@ -55,8 +55,8 @@ func newGenModelCmd() *genModelCmd {
 	gen.cmd = &cobra.Command{
 		Use:     "gen-model",
 		Aliases: []string{"model"},
-		Short:   "为gorm生成model文件",
-		Long:    `为gorm生成model文件, 例如: aurora gen-model, 进入交互模式`,
+		Short:   "Generate 'model' files for 'gorm'",
+		Long:    `Generate 'model' files for 'gorm', eg: aurora gen-model, enter interactive mode`,
 		Run: func(cmd *cobra.Command, args []string) {
 			gen.initJobRuntime(cmd)
 			gen.initConfig()
@@ -71,7 +71,7 @@ func newGenModelCmd() *genModelCmd {
 func (gen *genModelCmd) initJobRuntime(cmd *cobra.Command) {
 	// 检查是否在项目目录下
 	if !gen.InProjectPath() {
-		fmt.Println("🚫 当前目录下没有找到main文件，请在项目根目录运行...")
+		fmt.Println("🚫 The 'main.go' file is not found in the current directory, please run it in the project root directory...")
 		os.Exit(1)
 		return
 	}
@@ -93,20 +93,20 @@ func (gen *genModelCmd) run() {
 		err error
 	)
 	if err = gen.parseConfigFile(); err != nil {
-		fmt.Printf("🚫[命令: %s] 执行失败...[%v]\n", gen.cmd.Use, err)
+		fmt.Printf("🚫[Command: %s] execution failed...[%v]\n", gen.cmd.Use, err)
 		return
 	}
 
 	// 根据配置文件检查当前项目下存在几个数据库连接
 	if len(gen.conn) == 0 {
-		fmt.Printf("🚧 未检测到您当前的项目有DB配置, 无法生成model文件...\n")
+		fmt.Printf("🚧 It is not detected that your current project has a 'DB' configuration, and the 'model' file cannot be generated...\n")
 		return
 	}
 	if len(gen.conn) == 1 {
 		gen.chooseConn = gen.conn[0]
 	} else {
 		if gen.chooseConn, err = gen.chooseUrDB(); err != nil {
-			fmt.Printf("🚫[命令: %s] 执行失败...[%v]\n", gen.cmd.Use, err)
+			fmt.Printf("🚫[Command: %s] execution failed...[%v]\n", gen.cmd.Use, err)
 			return
 		}
 	}
@@ -115,17 +115,17 @@ func (gen *genModelCmd) run() {
 		gen.chooseTables = strings.Split(gen.flagTables, ",")
 	} else {
 		if err = gen.chooseUrTables(); err != nil {
-			fmt.Printf("🚫[命令: %s] 执行失败...[%v]\n", gen.cmd.Use, err)
+			fmt.Printf("🚫[Command: %s] execution failed...[%v]\n", gen.cmd.Use, err)
 			return
 		}
 	}
 	// 生成model文件
 	if err := gen.genModelProcess(); err != nil {
-		fmt.Printf("🚫[命令: %s] 执行失败...[%v]\n", gen.cmd.Use, err)
+		fmt.Printf("🚫[Command: %s] execution failed...[%v]\n", gen.cmd.Use, err)
 		return
 	}
 
-	fmt.Printf("\n\n🪄🎉🎊 model文件已生成成功...😄!\n")
+	fmt.Printf("\n\n🪄🎉🎊 The 'model' file has been generated successfully...😄!\n")
 
 	return
 }
@@ -156,7 +156,7 @@ func (gen *genModelCmd) chooseUrDB() (db conf.DB, err error) {
 		connMapping[selectList[i]] = v
 	}
 	prompt := &survey.Select{
-		Message: "检测到您有多个DB连接配置, 请选择要操作的DB连接...🤔:",
+		Message: "It is detected that you have multiple 'DB' connection configurations, please select the 'DB' connection to operate...🤔:",
 		Options: selectList,
 		Default: selectList[0],
 	}
@@ -165,13 +165,13 @@ func (gen *genModelCmd) chooseUrDB() (db conf.DB, err error) {
 		icons.Question.Format = "green+b"
 		icons.Help.Format = "green+b"
 	}), survey.WithValidator(survey.Required)); err != nil {
-		return db, errors.New("🚧 Stopped")
+		return db, errors.New("🚧 Stopped...something went wrong")
 	}
 	db, ok := connMapping[chooseDB]
 	if !ok {
 		return db, errors.New("choose DB Error")
 	}
-	fmt.Printf("✅ 你选择了%s, 连接中...\n", chooseDB)
+	fmt.Printf("✅ You selected [%s], connecting...\n", chooseDB)
 	return db, nil
 }
 
@@ -186,10 +186,10 @@ func (gen *genModelCmd) chooseUrTables() (err error) {
 		return err
 	}
 	if len(allTables) == 0 {
-		return errors.New("❌ 当前数据库中没有发现任何表")
+		return errors.New("❌ No tables found in the current database")
 	}
 	prompt := &survey.MultiSelect{
-		Message:  "请选择需要生成的表...😏",
+		Message:  "select the table to be generated...😏",
 		Options:  allTables,
 		PageSize: 15,
 	}
@@ -200,7 +200,7 @@ func (gen *genModelCmd) chooseUrTables() (err error) {
 	}), survey.WithKeepFilter(true), survey.WithValidator(survey.Required)); err != nil {
 		return errors.New("🚧 Stopped")
 	}
-	fmt.Printf("✅ 你选择了 %s 张表: [%s], 正在生成model文件...\n", color.BlueString("%d", len(gen.chooseTables)), color.BlueString(strings.Join(gen.chooseTables, ", ")))
+	fmt.Printf("✅ You selected %s tables: [%s], The 'model' file is being generated...\n", color.BlueString("%d", len(gen.chooseTables)), color.BlueString(strings.Join(gen.chooseTables, ", ")))
 
 	return nil
 }

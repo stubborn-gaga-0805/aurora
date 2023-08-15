@@ -19,8 +19,8 @@ type jobFlags struct {
 }
 
 var (
-	flagParams   = flag{"params", "p", "", "运行命令的参数, 多个参数用\",\"隔开... "}
-	flagShowList = flag{"list", "l", false, "查看可执行的用户任务"}
+	flagParams   = flag{"params", "p", "", "Parameters to run the command, multiple parameters are separated by \",\"... "}
+	flagShowList = flag{"list", "l", false, "View executable customer tasks"}
 )
 
 func newJobCmd() *jobCmd {
@@ -31,8 +31,8 @@ func newJobCmd() *jobCmd {
 	jc.cmd = &cobra.Command{
 		Use:     "job",
 		Aliases: []string{"jobs", "J", "Job", "JOB"},
-		Short:   "用户任务相关命令",
-		Long:    `用户任务相关命令, 例如: aurora job myJob -p " 111,222"`,
+		Short:   "Customer Task Related Commands",
+		Long:    `Customer Task Related Commands, eg: aurora job myJob -p "first_param,second_param,third_param"`,
 		Run: func(cmd *cobra.Command, args []string) {
 			jc.initJobRuntime(cmd)
 			jc.run(args)
@@ -46,7 +46,7 @@ func newJobCmd() *jobCmd {
 func (jc *jobCmd) initJobRuntime(cmd *cobra.Command) {
 	// 检查是否在项目目录下
 	if !jc.InProjectPath() {
-		fmt.Println("🚫 当前目录下没有找到main文件，请在项目根目录运行...")
+		fmt.Println("🚫 The 'main.go' file is not found in the current directory, please run it in the project root directory...")
 		os.Exit(1)
 		return
 	}
@@ -66,7 +66,7 @@ func (jc *jobCmd) run(args []string) {
 		goArgs = append(goArgs, "job", "-l")
 	} else {
 		if len(args) == 0 {
-			fmt.Println("🚫 请输入要执行的任务...")
+			fmt.Println("🚫 Please enter a task to perform...")
 			os.Exit(1)
 			return
 		}
@@ -76,7 +76,7 @@ func (jc *jobCmd) run(args []string) {
 	fd.Stdout = os.Stdout
 	fd.Stderr = os.Stderr
 	if err := fd.Run(); err != nil {
-		fmt.Printf("🚫[命令: %s] 执行失败...[%v]\n", jc.cmd.Use, err)
+		fmt.Printf("🚫[Command: %s] execution failed...[%v]\n", jc.cmd.Use, err)
 		os.Exit(1)
 		return
 	}

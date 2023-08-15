@@ -9,13 +9,13 @@
     |      /_/  |_\__,_/_/   \____/_/   \__,_/         |
     |                                                  |
     |                                                  |
-    |                >_ Aurora v1.0.0                  |
     |                   MIT License                    |
     |          Copyright (c) 2023 stubborn-gaga        |
     +--------------------------------------------------+
 ```
 
 > A Golang command-line tool based on the "spf13/cobra" package, designed to manage your "prepare2go" project.
+> - **For install:** ```go install github.com/stubborn-gaga-0805/aurora@latest```
 ---------
 
 ## aurora create <project-name>

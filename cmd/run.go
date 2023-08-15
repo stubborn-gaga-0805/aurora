@@ -24,14 +24,14 @@ type runFlags struct {
 }
 
 var (
-	flagAppName        = flag{"name", "n", "prepare-to-go", "设置服务名称"}
-	flagAppEnvironment = flag{"env", "e", "local", "设置服务的运行环境"}
-	flagAppVersion     = flag{"version", "v", "v1.0", "设置应用的版本"}
-	flagAppConfig      = flag{"config", "c", "", "设置配置文件的路径"}
-	flagWithCronJob    = flag{"with.cron", "", false, "是否启动定时任务"}
-	flagWithWs         = flag{"with.ws", "", false, "是否启动websocket服务"}
-	flagWithoutHttp    = flag{"without.server", "", false, "不启动http服务"}
-	flagWithoutMQ      = flag{"without.mq", "", false, "不启动MQ"}
+	flagAppName        = flag{"name", "n", "prepare-to-go", "Set application name"}
+	flagAppEnvironment = flag{"env", "e", "local", "Set the operating environment of the application"}
+	flagAppVersion     = flag{"version", "v", "v1.0", "Set the version of the application"}
+	flagAppConfig      = flag{"config", "c", "", "Set the path to the configuration file"}
+	flagWithCronJob    = flag{"with.cron", "", false, "Whether to start the crontab task"}
+	flagWithWs         = flag{"with.ws", "", false, "Whether to start the websocket server"}
+	flagWithoutHttp    = flag{"without.server", "", false, "Do not start the http server"}
+	flagWithoutMQ      = flag{"without.mq", "", false, "Do not start the MQ server"}
 )
 
 func newRunCmd() *runCmd {
@@ -39,8 +39,8 @@ func newRunCmd() *runCmd {
 	run.cmd = &cobra.Command{
 		Use:     "run",
 		Aliases: []string{"start", "running", "up"},
-		Short:   "启动web服务 (如：http, grpc, websocket)，默认启动Http服务",
-		Long:    `例如: aurora run --with.cron`,
+		Short:   "Start web server (such as: http, grpc, websocket), and start Http server by default",
+		Long:    `eg: aurora run -n myApp e test --with.cron --without.mq`,
 		Run: func(cmd *cobra.Command, args []string) {
 			run.initRuntime(cmd)
 			run.initConfig()
@@ -56,7 +56,7 @@ func newRunCmd() *runCmd {
 func (run *runCmd) initRuntime(cmd *cobra.Command) {
 	// 检查是否在项目目录下
 	if !run.InProjectPath() {
-		fmt.Println("🚫 当前目录下没有找到main文件，请在项目根目录运行...")
+		fmt.Println("🚫 The 'main.go' file is not found in the current directory, please run it in the project root directory...")
 		os.Exit(1)
 		return
 	}
@@ -71,7 +71,7 @@ func (run *runCmd) initRuntime(cmd *cobra.Command) {
 	run.id, _ = os.Hostname()
 	run.env = appEnv
 	if !appEnv.Check() {
-		panic(fmt.Sprintf("不支持的运行环境... 【%s】", run.env))
+		panic(fmt.Sprintf("Unsupported operating environment... 【%s】", run.env))
 	}
 	run.isDebug = appEnv.IsDebug()
 	run.runFlags = runFlags

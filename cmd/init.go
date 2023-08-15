@@ -22,8 +22,8 @@ func newInitCmd() *initCmd {
 	init.cmd = &cobra.Command{
 		Use:     "init",
 		Aliases: []string{},
-		Short:   "初始化项目",
-		Long:    "初始化项目, 例如: aurora init",
+		Short:   "Initialize the project",
+		Long:    "Initialize the project, eg: aurora init",
 		Run: func(cmd *cobra.Command, args []string) {
 			init.initInitRuntime()
 			init.run()
@@ -37,17 +37,17 @@ func (init *initCmd) initInitRuntime() {
 	var err error
 	// 检查是否在项目目录下
 	if !init.InProjectPath() {
-		fmt.Println("🚫 当前目录下没有找到main文件，请在项目根目录运行...")
+		fmt.Println("🚫 The 'main.go' file is not found in the current directory, please run it in the project root directory...")
 		os.Exit(1)
 		return
 	}
 	if init.goModPath, err = init.FilePathToAbs("./go.mod"); err != nil {
-		fmt.Printf("🚫[命令: %s] 执行失败...[%v]\n", init.cmd.Use, err)
+		fmt.Printf("🚫[Command: %s] execution failed...[%v]\n", init.cmd.Use, err)
 		os.Exit(1)
 		return
 	}
 	if len(init.goModPath) == 0 {
-		fmt.Printf("🚫 当前目录下未找到 go.mod 文件, 初始化失败！")
+		fmt.Printf("🚫 The 'go.mod' file was not found in the current directory, initialization failed！")
 		os.Exit(1)
 		return
 	}
@@ -69,26 +69,26 @@ func (init *initCmd) run() {
 			exec.Command("go", "mod", "verify"),
 		}
 	)
-	bar := helpers.NewProgressBar(len(cmdList), "正在初始化项目")
+	bar := helpers.NewProgressBar(len(cmdList), "Initializing project...")
 	for _, cmd := range cmdList {
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = os.Stderr
 		if err := cmd.Run(); err != nil {
-			fmt.Printf("\n🚫 %v %s [%v]\n", cmd.Args, color.RedString("执行失败!"), err)
+			fmt.Printf("\n🚫 %v %s [%v]\n", cmd.Args, color.RedString("execution failed!"), err)
 			continue
 		} else {
 			success++
-			fmt.Printf("\n✅ %v %s", cmd.Args, color.GreenString("执行成功!"))
+			fmt.Printf("\n✅ %v %s", cmd.Args, color.GreenString("all execution succeed!"))
 			bar.Increment()
 		}
 	}
 	if success != len(cmdList) {
-		fmt.Printf("\n\n‼️ %s", color.YellowString("部分成功!"))
+		fmt.Printf("\n\n‼️ %s", color.YellowString("partial success!"))
 		os.Exit(1)
 		return
 	}
 	bar.Finish()
-	fmt.Printf("\n\n🍺🍺🍺 初始化项目成功!\n")
+	fmt.Printf("\n\n🍺🍺🍺 Initialize the project successfully!\n")
 
 	return
 }

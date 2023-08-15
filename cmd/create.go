@@ -39,8 +39,8 @@ type createFlags struct {
 }
 
 var (
-	flagProjectPath = flag{"path", "p", "", `项目路径`}
-	flagIsDemo      = flag{"with.demo", "", false, `是否创建Demo项目`}
+	flagProjectPath = flag{"path", "p", "", `project path`}
+	flagIsDemo      = flag{"with.demo", "", false, `whether to create a 'demo' project`}
 )
 
 func newCreateCmd() *createCmd {
@@ -50,8 +50,8 @@ func newCreateCmd() *createCmd {
 	create.cmd = &cobra.Command{
 		Use:     "create",
 		Aliases: []string{},
-		Short:   "创建一个项目",
-		Long:    `创建一个项目, 例如: aurora create my-app`,
+		Short:   "create a new project",
+		Long:    `create a new project, eg: aurora create my-app`,
 		Run: func(cmd *cobra.Command, args []string) {
 			create.initCreateRuntime(cmd)
 			create.run(args)
@@ -90,14 +90,14 @@ func (create *createCmd) run(args []string) {
 	// 检查项目名
 	if len(args) == 0 {
 		promptName := &survey.Input{
-			Message: "请输入项目名称:",
+			Message: "enter a name for the project:",
 		}
 		if err = survey.AskOne(promptName, &projectName, survey.WithIcons(func(icons *survey.IconSet) {
 			icons.Question.Text = "🛠"
 			icons.Question.Format = "blue+b"
 			icons.Error.Text = "❌"
 		}), survey.WithValidator(survey.Required)); err != nil {
-			fmt.Println("🚧 Stopped...")
+			fmt.Println("🚧 Stopped...something went wrong")
 			return
 		}
 	} else {
@@ -106,14 +106,14 @@ func (create *createCmd) run(args []string) {
 	// 检查是否指定了路径
 	if len(create.flagProjectPath) == 0 {
 		promptPath := &survey.Input{
-			Message: "请输入项目路径:",
-			Default: fmt.Sprintf("默认: %s/%s", workingDir, projectName),
+			Message: "Please enter the project path:",
+			Default: fmt.Sprintf("default: %s/%s", workingDir, projectName),
 		}
 		if err = survey.AskOne(promptPath, &workingDir, survey.WithIcons(func(icons *survey.IconSet) {
 			icons.Question.Text = "📁"
 			icons.Question.Format = "blue+b"
 		})); err != nil {
-			fmt.Println("🚧 Stopped...")
+			fmt.Println("🚧 Stopped...something went wrong")
 			return
 		}
 		workingDir = strings.ReplaceAll(workingDir, "默认: ", "")
@@ -124,15 +124,15 @@ func (create *createCmd) run(args []string) {
 	create.branch = consts.BranchProject
 	if !create.flagIsDemo {
 		promptDemo := &survey.Confirm{
-			Message: "是否创建Demo?",
-			Help:    "Demo项目附带框架示例代码，生产环境请勿创建Demo",
+			Message: "Whether to create 'demo' code?",
+			Help:    "The Demo project comes with framework sample code, please do not create a Demo in the production environment",
 			Default: false,
 		}
 		if err = survey.AskOne(promptDemo, &create.flagIsDemo, survey.WithIcons(func(icons *survey.IconSet) {
 			icons.Question.Text = "💡"
 			icons.Question.Format = "blue+b"
 		})); err != nil {
-			fmt.Println("🚧 Stopped...")
+			fmt.Println("🚧 Stopped...something went wrong")
 			return
 		}
 		if create.flagIsDemo {
@@ -166,11 +166,11 @@ func (create *createCmd) pullRepo() (err error) {
 	// 目标文件夹已存在
 	if _, err = os.Stat(targetPath); !os.IsNotExist(err) {
 		err = nil
-		fmt.Printf("🤔 [目标路径: %s] 已存在！\n", targetPath)
+		fmt.Printf("🤔 [Target path: %s] already exists！\n", targetPath)
 		prompt := &survey.Confirm{
-			Message: "是否覆盖 ?",
+			Message: "Whether to overwrite existing directories ?",
 			Default: false,
-			Help:    "选择覆盖将删除现有目录下所有内容",
+			Help:    "WARNING: Selecting overwrite will delete all content under the existing directory",
 		}
 		if e := survey.AskOne(prompt, &override, survey.WithIcons(func(icons *survey.IconSet) {
 			icons.Question.Text = "📥"
@@ -179,7 +179,7 @@ func (create *createCmd) pullRepo() (err error) {
 			return err
 		}
 		if !override {
-			return errors.New(fmt.Sprintf("🚫 创建项目失败，目标文件夹已存在..."))
+			return errors.New(fmt.Sprintf("🚫 Failed to create project, target folder already exists..."))
 		}
 		// 清空
 		_ = os.RemoveAll(targetPath)
@@ -187,24 +187,25 @@ func (create *createCmd) pullRepo() (err error) {
 	if err := os.MkdirAll(targetPath, fs.ModePerm); err != nil {
 		return err
 	}
-	fmt.Printf("\n\n🚀 正在创建项目: [%s] [From %s To: %s], 拉取分支[%s], 请稍后...\n", color.GreenString(create.projectName), color.BlueString(consts.GoFrameRepoUrl), color.BlueString(create.projectPath), color.BlueString(create.branch))
+	fmt.Printf("\n\n🚀 Creating project: [%s] [From %s To: %s], Pulling GIT branch[%s], please wait...\n", color.GreenString(create.projectName), color.BlueString(consts.GoFrameRepoUrl), color.BlueString(create.projectPath), color.BlueString(create.branch))
 	if err = create.cloneRepoWithGit(targetPath); err != nil {
 		_ = os.RemoveAll(targetPath)
-		return errors.New(fmt.Sprintf("🚫 拉取远程仓库失败，无法创建项目... (err: %v)", err))
+		return errors.New(fmt.Sprintf("🚫 Failed to pull the remote git repostory, unable to create the project... (err: %v)", err))
 	}
-	fmt.Printf("\n⚙️ 成功拉取项目，初始化GIT仓库与分支...\n")
+	fmt.Printf("\n⚙️ Successfully pulled project, initializing GIT repository and branch...\n")
 	if err = create.processLocalRepo(targetPath); err != nil {
 		_ = os.RemoveAll(targetPath)
-		return errors.New(fmt.Sprintf("🚫 初始化仓库失败，无法创建项目... (err: %v)", err))
+		return errors.New(fmt.Sprintf("🚫 Failed to initialize GIT repository, unable to create project... (err: %v)", err))
 	}
-	fmt.Printf("\n⚙️ 初始化GIT仓库与分支成功，初始化go.mod...\n")
+	fmt.Printf("\n⚙️ Initializing GIT repository and branch succeeded ! initializing go.mod file...\n")
 	if err = create.processGoMod(); err != nil {
 		_ = os.RemoveAll(targetPath)
-		return errors.New(fmt.Sprintf("🚫 初始化go.mod错误，无法创建项目... (err: %v)", err))
+		return errors.New(fmt.Sprintf("🚫 There was an error initializing the go.mod file and the project could not be created... (err: %v)", err))
 	}
-	fmt.Printf("\n +++++++++ ️🎉🎊 项目 [%s] 创建成功...！🍺🍺🍺 +++++++++\n", color.GreenString(create.projectName))
-	fmt.Printf(" 📡 当前本地分支: [%s], 你可以运行命令: %s 关联远程仓库...\n", color.GreenString("main"), color.GreenString("git remote add origin <YourGitRepositoryUrl.git>"))
-	fmt.Printf(" 📡 运行命令: %s, 将本地分支提交到远程仓库...\n", color.GreenString("git push -u origin main"))
+	fmt.Printf("\n +++++++++ ️🎉🎊 Project [%s] created successfully...！🍺🍺🍺 +++++++++\n", color.GreenString(create.projectName))
+	fmt.Printf(" 📡 Current local GIT branch: [%s], You can run the command: %s to associate a remote repository...\n", color.GreenString("main"), color.GreenString("git remote add origin <YourGitRepositoryUrl.git>"))
+	fmt.Printf(" 📡 You can run the command: %s, to push your local GIT branch to the remote repository...\n", color.GreenString("git push -u origin main"))
+	fmt.Printf(" 🍻 All processes are successful! Enjoy the fun of coding...🥳\n")
 
 	return nil
 }
@@ -232,18 +233,18 @@ func (create *createCmd) processLocalRepo(targetPath string) (err error) {
 	if repo, err = git.PlainOpen(targetPath); err != nil {
 		return err
 	}
-	fmt.Printf("✅️ 断开与远程模板仓库的关联...\n")
+	fmt.Printf("✅️ Disassociate from remote GIT template repository...\n")
 	if err = repo.DeleteRemote("origin"); err != nil {
 		return err
 	}
 
-	fmt.Printf("✅ 初始化本地仓库...\n")
+	fmt.Printf("✅ Initialize the local GIT repository...\n")
 	headRef, err := repo.Head()
 	if err != nil {
 		return err
 	}
 	branchName := headRef.Name().Short()
-	fmt.Printf("✅️ 当前分支: [%s]\n", color.BlueString(branchName))
+	fmt.Printf("✅️ current GIT branch: [%s]\n", color.BlueString(branchName))
 
 	// 将分支自改为main
 	if branchName != consts.BranchMain {
@@ -254,11 +255,11 @@ func (create *createCmd) processLocalRepo(targetPath string) (err error) {
 		oldBranchRef := plumbing.NewHashReference(plumbing.ReferenceName("refs/heads/"+branchName), branchRef.Hash())
 		newBranchRef := plumbing.NewHashReference("refs/heads/"+consts.BranchMain, oldBranchRef.Hash())
 
-		fmt.Printf("✅ 当前分支不为[%s], 创建: [%s]分支\n", color.GreenString(consts.BranchMain), color.GreenString(consts.BranchMain))
+		fmt.Printf("✅ The current GIT branch is not[%s], create: [%s]branch\n", color.GreenString(consts.BranchMain), color.GreenString(consts.BranchMain))
 		if err = repo.Storer.SetReference(newBranchRef); err != nil {
 			return err
 		}
-		fmt.Printf("✅️ 删除: [%s]分支\n", color.GreenString(branchName))
+		fmt.Printf("✅️ delete branch: [%s]\n", color.GreenString(branchName))
 		if err = repo.Storer.RemoveReference(oldBranchRef.Name()); err != nil {
 			return err
 		}
@@ -295,7 +296,7 @@ func (create *createCmd) processGoMod() (err error) {
 	if err := cmd.Run(); err != nil {
 		return err
 	}
-	fmt.Printf("✅️ 设置go.mod的模块名为[%s]\n", color.BlueString(create.projectName))
+	fmt.Printf("✅️ Set the module name of 'go.mod' to [%s]\n", color.BlueString(create.projectName))
 
 	// 查找并修改引用
 	if err = replaceImport(create.projectName, filepath.Join(create.projectPath, create.projectName)); err != nil {
@@ -370,7 +371,7 @@ func replaceImport(moduleName, workdir string) (err error) {
 	if err != nil {
 		return err
 	}
-	fmt.Printf("💡 替换文件: %s 中的引用为: %s\n", mainPath, moduleName)
+	fmt.Printf("💡 Replace references in file: %s with: %s\n", mainPath, moduleName)
 
 	// 替换文件夹中的文件
 	for _, dir := range replaceDirs {
@@ -393,7 +394,7 @@ func replaceImport(moduleName, workdir string) (err error) {
 				if err != nil {
 					return err
 				}
-				fmt.Printf("💡 替换文件: %s 中的引用为: %s\n", path, color.GreenString(fmt.Sprintf("module: %s", moduleName)))
+				fmt.Printf("💡 Replace references in file: %s with: %s\n", path, color.GreenString(fmt.Sprintf("module: %s", moduleName)))
 			}
 			return nil
 		})
