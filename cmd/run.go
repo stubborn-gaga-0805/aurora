@@ -102,7 +102,6 @@ func (run *runCmd) run() {
 		"-c", run.configFilePath,
 		"-e", run.runFlags.appEnv,
 	}
-	fmt.Printf("+++++++++ %+v", run.runFlags)
 	if run.runFlags.withWs {
 		fmt.Printf("--%s\n", flagWithWs.name)
 		goArgs = append(goArgs, fmt.Sprintf("--%s", flagWithWs.name))

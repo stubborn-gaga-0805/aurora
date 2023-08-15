@@ -91,7 +91,7 @@ func (base *baseCmd) GetBin() string {
 }
 
 func (base *baseCmd) Build() string {
-	fd := exec.Command("go", "build", "ldflags=\"-s -w\"", "-o", base.binPath, base.mainPath)
+	fd := exec.Command("go", "build", "-o", base.binPath, base.mainPath)
 	fd.Stdout = os.Stdout
 	fd.Stderr = os.Stderr
 	if err := fd.Run(); err != nil {

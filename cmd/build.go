@@ -88,6 +88,7 @@ func (build *buildCmd) run(args []string) {
 		}
 		goArgs = append(goArgs, build.mainPath)
 	}
+	goArgs = append(goArgs, build.mainPath)
 	fd := exec.Command("go", goArgs...)
 	fd.Stdout = os.Stdout
 	fd.Stderr = os.Stderr
