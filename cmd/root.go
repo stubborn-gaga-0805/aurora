@@ -14,9 +14,8 @@ type rootCmd struct {
 func newRootCmd() *rootCmd {
 	rc := &rootCmd{newBaseCmd()}
 	rc.cmd = &cobra.Command{
-		Use:   "aurora",
-		Short: "A Golang command-line tool",
-		// Long:    `A Golang command-line tool`,
+		Use:     "aurora",
+		Short:   "A Golang command-line tool",
 		Version: consts.Version,
 		Run: func(cmd *cobra.Command, args []string) {
 			if err := cmd.Usage(); err != nil {
@@ -26,7 +25,7 @@ func newRootCmd() *rootCmd {
 	}
 	rc.cmd.SetUsageFunc(func(c *cobra.Command) error {
 		if len(c.Commands()) > 0 {
-			fmt.Printf("+--------------------------------------------------+\n|          ___                                     |\n|         /   | __  ___________  _________ _       |\n|        / /| |/ / / / ___/ __ \\/ ___/ __ `/       |\n|       / ___ / /_/ / /  / /_/ / /  / /_/ /        |\n|      /_/  |_\\__,_/_/   \\____/_/   \\__,_/         |\n|                                                  |\n|                                                  |\n|                >_ Aurora %s                  |\n|                   MIT License                    |\n|          Copyright (c) 2023 stubborn-gaga        |\n+--------------------------------------------------+\n\n", consts.Version)
+			fmt.Printf("+--------------------------------------------------+\n|          ___                                     |\n|         /   | __  ___________  _________ _       |\n|        / /| |/ / / / ___/ __ \\/ ___/ __ `/       |\n|       / ___ / /_/ / /  / /_/ / /  / /_/ /        |\n|      /_/  |_\\__,_/_/   \\____/_/   \\__,_/         |\n|                                                  |\n|                                                  |\n|                >_ Aurora %s                    |\n|                   MIT License                    |\n|          Copyright (c) 2023 stubborn-gaga        |\n+--------------------------------------------------+\n\n", consts.Version)
 		}
 		fmt.Printf("[Command] %s\n", color.BlueString(c.Use))
 		fmt.Printf("Flag Usages:\n%s \n", color.YellowString(c.Flags().FlagUsages()))

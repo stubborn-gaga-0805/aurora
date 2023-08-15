@@ -50,8 +50,8 @@ func newCreateCmd() *createCmd {
 	create.cmd = &cobra.Command{
 		Use:     "create",
 		Aliases: []string{},
-		Short:   "create a new project",
-		Long:    `create a new project, eg: aurora create my-app`,
+		Short:   "Create a new project",
+		Long:    `💡 Create a new project, eg: aurora create my-app`,
 		Run: func(cmd *cobra.Command, args []string) {
 			create.initCreateRuntime(cmd)
 			create.run(args)

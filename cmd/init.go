@@ -23,7 +23,7 @@ func newInitCmd() *initCmd {
 		Use:     "init",
 		Aliases: []string{},
 		Short:   "Initialize the project",
-		Long:    "Initialize the project, eg: aurora init",
+		Long:    "💡 Initialize the project, eg: aurora init",
 		Run: func(cmd *cobra.Command, args []string) {
 			init.initInitRuntime()
 			init.run()

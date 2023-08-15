@@ -40,7 +40,7 @@ func newRunCmd() *runCmd {
 		Use:     "run",
 		Aliases: []string{"start", "running", "up"},
 		Short:   "Start web server (such as: http, grpc, websocket), and start Http server by default",
-		Long:    `eg: aurora run -n myApp e test --with.cron --without.mq`,
+		Long:    `💡 Start your app... eg: aurora run -n myApp e test --with.cron --without.mq`,
 		Run: func(cmd *cobra.Command, args []string) {
 			run.initRuntime(cmd)
 			run.initConfig()

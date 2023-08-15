@@ -32,7 +32,7 @@ func newJobCmd() *jobCmd {
 		Use:     "job",
 		Aliases: []string{"jobs", "J", "Job", "JOB"},
 		Short:   "Customer Task Related Commands",
-		Long:    `Customer Task Related Commands, eg: aurora job myJob -p "first_param,second_param,third_param"`,
+		Long:    `💡 Customer Task Related Commands, eg: aurora job myJob -p "first_param,second_param,third_param"`,
 		Run: func(cmd *cobra.Command, args []string) {
 			jc.initJobRuntime(cmd)
 			jc.run(args)

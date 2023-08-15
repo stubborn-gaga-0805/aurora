@@ -56,7 +56,7 @@ func newGenModelCmd() *genModelCmd {
 		Use:     "gen-model",
 		Aliases: []string{"model"},
 		Short:   "Generate 'model' files for 'gorm'",
-		Long:    `Generate 'model' files for 'gorm', eg: aurora gen-model, enter interactive mode`,
+		Long:    `💡 Generate 'model' files for 'gorm', eg: aurora gen-model, enter interactive mode`,
 		Run: func(cmd *cobra.Command, args []string) {
 			gen.initJobRuntime(cmd)
 			gen.initConfig()

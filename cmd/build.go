@@ -31,8 +31,8 @@ func newBuildCmd() *buildCmd {
 	build.cmd = &cobra.Command{
 		Use:     "build",
 		Aliases: []string{},
-		Short:   "building your project",
-		Long:    `to compile/build the project, execute in the root directory of the project. eg: aurora init`,
+		Short:   "Building your project",
+		Long:    `💡 To compile/build the project, execute in the root directory of the project. eg: aurora init`,
 		Run: func(cmd *cobra.Command, args []string) {
 			build.initBuildRuntime(cmd)
 			build.run(args)
