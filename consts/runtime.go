@@ -11,7 +11,7 @@ const (
 )
 
 const (
-	BranchProject = "project"
+	BranchProject = "main"
 	BranchMain    = "main"
-	BranchDemo    = "demo"
+	BranchDemo    = "main"
 )

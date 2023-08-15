@@ -39,10 +39,10 @@ type genModelFlags struct {
 }
 
 var (
-	flagTables      = flag{"table", "t", "", `指定生成的表名(多张表用","隔开)... `}
-	flagOutputPath  = flag{"output", "o", defaultOutputPath, `执行生成文件的路径,默认"./internal/repo/orm"... `}
-	flagPackageName = flag{"pkg", "p", defaultPackageName, `生成model文件的包名,默认"orm",需要和生成路径的文件夹对应... `}
-	flagDBConn      = flag{"conn", "c", defaultDbConn, `配置文件中的连接配置，默认"db"... `}
+	flagTables      = flag{"table", "t", "", `Specify the generated table name (multiple tables are separated by ",")`}
+	flagOutputPath  = flag{"output", "o", defaultOutputPath, `The path to execute the generated file, default "./internal/repo/orm"...`}
+	flagPackageName = flag{"pkg", "p", defaultPackageName, `The package name of the generated model file, the default is "orm", which needs to correspond to the folder of the generated path...`}
+	flagDBConn      = flag{"conn", "c", defaultDbConn, `The database connection configuration in the configuration file, the default "db"...`}
 
 	dnsTpl = `%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local`
 )
