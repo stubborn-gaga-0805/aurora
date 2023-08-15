@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-var replaceDirs = []string{"api", "cmd", "configs", "internal", "third_party"}
+var replaceDirs = []string{"api", "cmd", "configs", "internal", "pkg"}
 
 type createCmd struct {
 	*baseCmd
